@@ -9,6 +9,7 @@ import {
   Texture,
   Vector3,
 } from '@babylonjs/core';
+import { ShowInspector } from '@babylonjs/inspector';
 
 export class AppOne {
   engine: Engine;
@@ -35,6 +36,9 @@ export class AppOne {
     this.engine.runRenderLoop(() => {
       this.scene.render();
     });
+    setTimeout(() => {
+      ShowInspector(this.scene)
+    }, 1000)
   }
 }
 
