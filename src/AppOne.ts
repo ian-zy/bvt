@@ -8,7 +8,9 @@ import {
   StandardMaterial,
   Texture,
   Vector3,
+  ImportMeshAsync,
 } from '@babylonjs/core';
+import '@babylonjs/loaders';
 import { ShowInspector } from '@babylonjs/inspector';
 
 export class AppOne {
@@ -23,22 +25,18 @@ export class AppOne {
     this.scene = createScene(this.engine, this.canvas);
   }
 
-  debug(debugOn: boolean = true) {
-    if (debugOn) {
-      this.scene.debugLayer.show({ overlay: true });
-    } else {
-      this.scene.debugLayer.hide();
-    }
-  }
-
-  run() {
-    this.debug(true);
+  async run() {
     this.engine.runRenderLoop(() => {
       this.scene.render();
     });
     setTimeout(() => {
       ShowInspector(this.scene)
     }, 1000)
+    await ImportMeshAsync("./bench.glb", this.scene)
+    const bench = this.scene.getMeshByName("bench")
+    if (bench) {
+      bench.position.z = -3
+    }
   }
 }
 
